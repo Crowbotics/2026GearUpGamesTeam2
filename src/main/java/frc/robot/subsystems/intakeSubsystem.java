@@ -1,28 +1,35 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class intakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public intakeSubsystem() {}
+  public IntakeSubsystem() {}
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-            TalonSRX inta = new TalonSRX(1);
-        });
+    private TalonSRX intake = new TalonSRX(10);
+    
+    private void runIntakeMotor() {
+        
+        intake.set(TalonSRXControlMode.PercentOutput, -0.4);
+    }
+
+    private void stopIntakeMotor() {
+        
+        intake.set(TalonSRXControlMode.PercentOutput, 0);
+    }
+
+    
+  public Command runIntakeCommand() {
+    
+
+    return runEnd(this::runIntakeMotor, this::stopIntakeMotor);
   }
+
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
